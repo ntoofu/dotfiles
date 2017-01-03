@@ -1,0 +1,3 @@
+#!/bin/sh -x
+
+diff -r $1 $2 || cp -ri $1 $(dirname $2)
