@@ -1,0 +1,102 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+hook_add = '''
+	call togglebg#map('<F5>')
+	let g:solarized_bold=1
+	let g:solarized_degrade=0
+	let g:solarized_italic=1
+	let g:solarized_termcolors=16
+	let g:solarized_termtrans=0
+	let g:solarized_underline=1
+	set background=dark
+	colorscheme solarized
+'''
+
+[[plugins]]
+repo = 'h1mesuke/vim-alignta'
+
+[[plugins]]
+repo = 'kana/vim-textobj-jabraces'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+[[plugins]]
+repo = 'matchit.zip'
+
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+hook_add = '''
+	if !exists("g:quickrun_config")
+	    let g:quickrun_config = {}
+	endif
+	let g:quickrun_config["_"] = {
+		    \ "outputter/error/error": "quickfix",
+		    \ "outputter/error/success": "buffer",
+		    \ "outputter": "error",
+		    \ "outputter/buffer/close_on_empty": 1,
+		    \ "outputter/buffer/running_mark": "Running...",
+		    \ }
+	nnoremap	<Leader>R		:QuickRun -outputter quickfix<CR>
+'''
+
+[[plugins]]
+repo = 'tpope/vim-abolish'
+
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'LeafCage/yankround.vim'
+hook_add = '''
+	nmap	p	<Plug>(yankround-p)
+	xmap	p	<Plug>(yankround-p)
+	nmap	P	<Plug>(yankround-P)
+	nmap	gp	<Plug>(yankround-gp)
+	xmap	gp	<Plug>(yankround-gp)
+	nmap	gP	<Plug>(yankround-gP)
+	nmap	<expr><C-n>	yankround#is_active() ? "\<Plug>(yankround-next)" : "<SID>(ctrln)"
+	nmap	<expr><C-p>	yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+'''
+
+[[plugins]]
+repo = 'Lokaltog/vim-easymotion'
+hook_add = '''
+	let g:EasyMotion_do_mapping = 0
+	let g:EasyMotion_use_migemo = 1
+	nnoremap	`	m
+	nmap	m	<Plug>(easymotion-s2)
+'''
+
+[[plugins]]
+repo = 'Shougo/neocomplete.vim'
+
+[[plugins]]
+repo = 'Shougo/neosnippet'
+hook_add = '''
+	imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+	smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+	xmap <C-k>     <Plug>(neosnippet_expand_target)
+	imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+		    \ "\<Plug>(neosnippet_expand_or_jump)"
+		    \: pumvisible() ? "\<C-n>" : "\<TAB>"
+	smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+		    \ "\<Plug>(neosnippet_expand_or_jump)"
+		    \: "\<TAB>"
+'''
+
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
