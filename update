@@ -1,3 +1,13 @@
 #!/bin/sh -x
 
-diff -r $1 $2 || cp -ri $1 $(dirname $2)
+src=$1
+dst=$2
+
+if [ -d $src ]; then
+    find $src -type f -print0 | while read -r -d $'\0' file; do
+        dst_file="$dst/$(realpath --relative-to=$src $file)"
+        diff "$file" "$dst_file" || cp --backup=numbered "$file" "$dst_file"
+    done
+else
+    diff $src $dst || cp --backup=numbered $src $dst
+fi
