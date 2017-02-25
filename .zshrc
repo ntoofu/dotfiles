@@ -26,13 +26,32 @@
 	setopt hist_ignore_space
 
 # PROMPT
-	setopt prompt_subst
+    setopt prompt_subst
+    autoload -Uz add-zsh-hook
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' stagedstr "%F{yellow}C"
+    zstyle ':vcs_info:git:*' unstagedstr "%F{yellow}S"
+    zstyle ':vcs_info:*' formats "%F{blue}%c%u[%b]%f"
+    zstyle ':vcs_info:*' actionformats '[%b|%a]'
+    function precmd_ps1() {
+        local last_status="($?)"
+        local time_str=$(date +%T)
+        local padlen=$(( $COLUMNS - ${#last_status} - ${#time_str} ))
+        local padding=$(printf "%.1s" "-"{1..$padlen})
+        [ $? -eq 0 ] && local color=32 || local color=31
+        echo -e "\e[${color}m${last_status}${padding}\e[m${time_str}"
+    }
+    function precmd_update_vcs_info () {
+        vcs_info
+    }
+    add-zsh-hook precmd precmd_ps1
+    add-zsh-hook precmd precmd_update_vcs_info
     local prompt_newline=$'\n'
-    local prompt_hbar=$'${(r:$(($COLUMNS-15))::_:)}'
-    local prompt_status="%(?.%{%F{green}%}.%{%F{red}%})( %? )$prompt_hbar%f"
-    local prompt_date="%{%F{white}%}%D{%H:%M}%{%f%}"
-    PROMPT="${prompt_status}${prompt_date}${prompt_newline}%{%F{green}%}%(!.#.$)%{%f%} "
-	RPROMPT="%{%F{green}%}%3~%{%f%} [%{%B%F{magenta}%}%n%{%f%b%}@%{%F{magenta}%}%m%{%f%}]"
+    local user_info_msg="[%{%B%F{magenta}%}%n%{%f%b%}@%{%F{magenta}%}%m%{%f%}]"
+    local dir_info_msg="%{%F{green}%}%3~%{%f%}"
+    local prompt_mark="%{%F{white}%}%(!.#.$)%{%f%} "
+    PROMPT="$user_info_msg $dir_info_msg \${vcs_info_msg_0_}$prompt_newline$prompt_mark"
 
 	if [ -e ~/.dir_colors ]; then
 		eval `dircolors ~/.dir_colors`
