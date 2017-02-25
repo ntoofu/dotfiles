@@ -82,7 +82,7 @@
 
 # EXTERNAL SCRIPT
     if [ -e $HOME/.zsh ]; then
-        for f in $HOME/.zsh/*; do
+        for f in $HOME/.zsh/*.zsh; do
             source $f
-        done
+        done || :
     fi
