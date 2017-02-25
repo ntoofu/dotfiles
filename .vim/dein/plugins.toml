@@ -64,8 +64,8 @@ hook_add = '''
 	nmap	gp	<Plug>(yankround-gp)
 	xmap	gp	<Plug>(yankround-gp)
 	nmap	gP	<Plug>(yankround-gP)
-	nmap	<expr><C-n>	yankround#is_active() ? "\<Plug>(yankround-next)" : "<SID>(ctrln)"
-	nmap	<expr><C-p>	yankround#is_active() ? "\<Plug>(yankround-prev)" : "<SID>(ctrlp)"
+	nmap	<expr><C-n>	yankround#is_active() ? "\<Plug>(yankround-next)" : "(C-n)"
+	nmap	<expr><C-p>	yankround#is_active() ? "\<Plug>(yankround-prev)" : "(C-p)"
 '''
 
 [[plugins]]

@@ -71,8 +71,8 @@ cnoremap	<C-d>	<Del>
 cnoremap	<C-k>	<C-\>e getcmdpos() == 1 ? '' : getcmdline()[:getcmdpos()-2] <CR>
 
 nnoremap	<C-k>		:bdelete<CR>
-nnoremap	<silent><SID>(ctrln)	:bnext<CR>
-nnoremap	<silent><SID>(ctrlp)	:bprevious<CR>
+nnoremap	<silent>(C-n)	:bnext<CR>
+nnoremap	<silent>(C-p)	:bprevious<CR>
 
 nnoremap	<Leader>q		:copen<CR>
 nnoremap	<Leader>Q		:cclose<CR>
