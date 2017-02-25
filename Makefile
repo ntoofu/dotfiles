@@ -25,7 +25,7 @@ deploy: .zshrc environment
 		./update .xinitrc \$${HOME}/.xinitrc; \
 		./update .xmobarrc \$${HOME}/.xmobarrc; \
 		[ -e \$${HOME}/.xmonad ] || mkdir \$${HOME}/.xmonad; \
-		cp -i xmonad.hs \$${HOME}/.xmonad/; \
+		./update xmonad.hs \$${HOME}/.xmonad/; \
 		./update .vimrc \$${HOME}/.vimrc; \
 		./update .vim \$${HOME}/.vim; \
 		)"
