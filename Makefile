@@ -28,4 +28,5 @@ deploy: .zshrc environment
 		./update xmonad.hs \$${HOME}/.xmonad/; \
 		./update .vimrc \$${HOME}/.vimrc; \
 		./update .vim \$${HOME}/.vim; \
+		./update .Xresources \$${HOME}/.Xresources; \
 		)"
