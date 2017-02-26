@@ -6,6 +6,7 @@ dst=$2
 if [ -d $src ]; then
     find $src -type f -print0 | while read -r -d $'\0' file; do
         dst_file="$dst/$(realpath --relative-to=$src $file)"
+        [ -e $dst ] || mkdir -p $dst
         diff "$file" "$dst_file" || cp --backup=numbered "$file" "$dst_file"
     done
 else
