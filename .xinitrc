@@ -61,7 +61,10 @@ if [ -n "$failsafe" ]; then
 
 	which start-pulseaudio-x11 >/dev/null  2>&1 && start-pulseaudio-x11
 	
-	exec xmonad
+	which syndaemon >/dev/null  2>&1 && syndaemon -t -k -i 2 &
+
+#	exec xmonad
+	exec ck-launch-session dbus-launch --sh-syntax --exit-with-session xmonad
 
 else
 	exec $command

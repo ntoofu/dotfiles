@@ -1,5 +1,5 @@
 Config {
-		  font = "xft:Monospace:size=9"
+		  font = "xft:Monospace:size=12"
 		, borderColor = "black"
 		, border = TopB
 		, bgColor = "#001144"
@@ -7,17 +7,18 @@ Config {
 		, position = Bottom
 		, lowerOnStart = True
 		, persistent = False
+		, sepChar = "%"
+		, alignSep = "}{"
+		, template = "%StdinReader% }{ %cpu% | %wlp1s0%(%wlp1s0wi%) | %battery% | <fc=#ee9a00>%date%</fc>"
+--		, template = "%StdinReader% }{ %cpu% | %memory% | %wlp1s0%(%wlp1s0wi%) | %battery% | <fc=#ee9a00>%date%</fc>"
 		, commands = [
-					  Run Network "eth0" ["-L","0","-H","32","--low","grey","--high","red"] 10
-					, Run Network "eth1" ["-L","0","-H","32","--low","grey","--high","red"] 10
+					  Run Network "wlp1s0" ["-L","0","-H","32","--low","grey","--high","red"] 10
+					, Run Wireless "wlp1s0" [] 30
 					, Run Cpu ["-L","5","-H","50","--low","grey","--normal","white","--high","red"] 10
-					, Run Memory ["-t","Mem: <usedratio>%","-L","20","-H","70","--low","grey","--high","red"] 10
-					, Run Swap ["-L","0","-H","10","--low","grey","--high","red"] 10
+--					, Run Memory ["--template","Mem: <usedratio>%","--Low","20","--High","70","--low","grey","--high","red"] 10
 					, Run Com "uname" ["-s","-r"] "" 36000
 					, Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
 					, Run StdinReader
+					, Run Battery ["-L","30","-H","80","--low","red","--high","green"] 100
 					]
-		, sepChar = "%"
-		, alignSep = "}{"
-		, template = "%StdinReader% }{ %cpu% | %memory% * %swap% | %eth0% (%eth1%) | <fc=#ee9a00>%date%</fc>"
 		}
