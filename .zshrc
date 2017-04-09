@@ -35,12 +35,13 @@
     zstyle ':vcs_info:*' formats "%F{blue}%c%u[%b]%f"
     zstyle ':vcs_info:*' actionformats '[%b|%a]'
     function precmd_ps1() {
-        local last_status="($?)"
+        local last_status="$?"
+        local status_str="($last_status)"
         local time_str=$(date +%T)
-        local padlen=$(( $COLUMNS - ${#last_status} - ${#time_str} ))
+        local padlen=$(( $COLUMNS - ${#status_str} - ${#time_str} ))
         local padding=$(printf "%.1s" "-"{1..$padlen})
-        [ $? -eq 0 ] && local color=32 || local color=31
-        echo -e "\e[${color}m${last_status}${padding}\e[m${time_str}"
+        [ $last_status -eq 0 ] && local color=32 || local color=31
+        echo -e "\e[${color}m${status_str}${padding}\e[m${time_str}"
     }
     function precmd_update_vcs_info () {
         vcs_info
