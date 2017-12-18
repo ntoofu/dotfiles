@@ -25,7 +25,7 @@ repo = 'kana/vim-textobj-jabraces'
 repo = 'kana/vim-textobj-user'
 
 [[plugins]]
-repo = 'matchit.zip'
+repo = 'vim-scripts/matchit.zip'
 
 [[plugins]]
 repo = 'tomtom/tcomment_vim'
@@ -100,3 +100,5 @@ repo = 'Shougo/neosnippet-snippets'
 [[plugins]]
 repo = 'Shougo/unite.vim'
 
+[[plugins]]
+repo = 'dhruvasagar/vim-table-mode'
