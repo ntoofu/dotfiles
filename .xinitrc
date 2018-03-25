@@ -54,10 +54,19 @@ if [ -n "$failsafe" ]; then
 
 	export LANG="ja_JP.UTF-8"
 
-	export XMODIFIERS="@im=ibus"
-	export GTK_IM_MODULE="ibus"
-	export QT_IM_MODULE="xim"
-	which ibus-daemon >/dev/null 2>&1 && ibus-daemon -d -x
+    if which ibus-daemon >/dev/null 2>&1; then
+        export XMODIFIERS="@im=ibus"
+        export GTK_IM_MODULE="ibus"
+        export QT_IM_MODULE="xim"
+        ibus-daemon -d -x
+    else
+        export XMODIFIERS="@im=fcitx"
+        export GTK_IM_MODULE="fcitx"
+        export QT_IM_MODULE="fcitx"
+        eval "$(dbus-launch --sh-syntax --exit-with-session)"
+        fcitx >/dev/null 2>&1
+    fi
+
 
 	which start-pulseaudio-x11 >/dev/null  2>&1 && start-pulseaudio-x11
 	
