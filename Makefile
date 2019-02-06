@@ -3,7 +3,7 @@ all: install deploy
 
 .PHONY: environment
 environment: .zprofile
-	./update .zprofile ${HOME}/.zprofile
+	sh ./update .zprofile ${HOME}/.zprofile
 
 .PHONY: install
 install: environment
@@ -20,12 +20,12 @@ install: environment
 .PHONY: deploy
 deploy: .zshrc environment
 	zsh -c "source ${HOME}/.zprofile && ( \
-		./update .zsh \$${HOME}/.zsh; \
-		./update .zshrc \$${HOME}/.zshrc; \
-		./update .xinitrc \$${HOME}/.xinitrc; \
-		./update .xmobarrc \$${HOME}/.xmobarrc; \
+		sh ./update .zsh \$${HOME}/.zsh; \
+		sh ./update .zshrc \$${HOME}/.zshrc; \
+		sh ./update .xinitrc \$${HOME}/.xinitrc; \
+		sh ./update .xmobarrc \$${HOME}/.xmobarrc; \
 		[ -e \$${HOME}/.xmonad ] || mkdir \$${HOME}/.xmonad; \
-		./update xmonad.hs \$${HOME}/.xmonad/; \
-		./update .vimrc \$${HOME}/.vimrc; \
-		./update .vim \$${HOME}/.vim; \
+		sh ./update xmonad.hs \$${HOME}/.xmonad/; \
+		sh ./update .vimrc \$${HOME}/.vimrc; \
+		sh ./update .vim \$${HOME}/.vim; \
 		)"
