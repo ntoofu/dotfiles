@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleContexts #-}
 --
 -- xmonad example config file.
 --
@@ -20,6 +21,11 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import System.IO
 
+import XMonad.Layout.Decoration(Decoration, DefaultShrinker, fontName)
+import XMonad.Layout.LayoutModifier(LayoutModifier(handleMess, modifyLayout, redoLayout), ModifiedLayout(..))
+import XMonad.Layout.Simplest(Simplest(..))
+import XMonad.Layout.Tabbed(shrinkText, TabbedDecoration, addTabs)
+import qualified XMonad.Util.Themes as Themes
 
 -- about layout
 import XMonad.Layout
@@ -262,9 +268,11 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
 --
---myLayout = windowNavigation( ResizableTall 1 (3/100) (1/2) []||| ThreeCol 1 (3/100) (1/3) ||| Full ||| (combineTwo (ResizableTall 1 (3/100) (1/2) []) simpleTabbed (ResizableTall 1 (3/100) (1/2) [])) )
---myLayout =  avoidStruts $ windowNavigation $ subTabbed $ ( (ResizableTall 1 (3/100) (1/2) [])||| ThreeCol 1 (3/100) (1/3) ||| Mgn.magnifiercz 1.0 (Grid) ||| combineTwo (ResizableTall 1 (3/100) (3/4) []) (Mgn.magnifiercz 1.97 (Grid)) (tiled) ||| Full )
-myLayout =  avoidStruts $ windowNavigation $ subTabbed $ ( (ResizableTall 1 (3/100) (1/2) [])||| ThreeCol 1 (3/100) (1/3) ||| Full )
+
+customizedSubTabbed :: (Eq a, LayoutModifier (Sublayout Simplest) a, LayoutClass l a) => l a -> ModifiedLayout (Decoration TabbedDecoration DefaultShrinker) (ModifiedLayout (Sublayout Simplest) l) a
+customizedSubTabbed x = addTabs shrinkText ( ( Themes.theme Themes.smallClean ) { fontName = "xft:Monospace:size=9" } ) $ subLayout [] Simplest x
+
+myLayout =  avoidStruts $ windowNavigation $ customizedSubTabbed $ ( (ResizableTall 1 (3/100) (1/2) [])||| ThreeCol 1 (3/100) (1/3) ||| Full )
 --myLayout = tiled ||| Mirror tiled ||| Full
   where
      -- default tiling algorithm partitions the screen into two panes
@@ -341,7 +349,7 @@ myStartupHook = return ()
 --
 main = do
 	xmproc <- spawnPipe "xmobar"
-	xmonad $ defaultConfig {
+	xmonad $ docks def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
