@@ -6,7 +6,11 @@
 export LANG=${LANG:=en_US}
 export WORDCHARS='*?_-+.[]~=&!#$%^(){}<>'
 
-export EDITOR=vim
+if which nvim; then
+    export EDITOR=nvim
+else
+    export EDITOR=vi
+fi
 export PAGER=less
 
 export GOPATH=$HOME/work

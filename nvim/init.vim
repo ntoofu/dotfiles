@@ -1,12 +1,12 @@
 if &compatible
     set nocompatible
 endif
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state(expand('~/.vim/dein'))
-    call dein#begin(expand('~/.vim/dein'))
-    call dein#load_toml(expand('~/.vim/dein/plugins.toml'), {'lazy': 0})
-    call dein#load_toml(expand('~/.vim/dein/plugins_lazy.toml'), {'lazy': 1})
+if dein#load_state(expand('~/.config/nvim/dein'))
+    call dein#begin(expand('~/.config/nvim/dein'))
+    call dein#load_toml(expand('~/.config/nvim/dein/plugins.toml'), {'lazy': 0})
+    call dein#load_toml(expand('~/.config/nvim/dein/plugins_lazy.toml'), {'lazy': 1})
     call dein#end()
     call dein#save_state()
 endif
@@ -29,10 +29,22 @@ set shiftwidth=4
 set cinoptions+=l1,i0,(0,W4,J1
 set expandtab
 
+set laststatus=2
+set statusline=%F%m%r%h%w\ %<(%{&ff},%{&fileencoding})%=%y\ (%3c)[%5l/%5L]
+set cursorline
+set scrolloff=5
+set list
+set listchars=tab:\ \ ,eol:\ ,trail:_,extends:>,precedes:<
+set number
+syntax on
+
 set foldenable
 set foldmethod=manual
 autocmd BufWinLeave ?* silent mkview
 autocmd BufWinEnter ?* silent loadview
+
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 set guifont=Ricty\ Discord\ 13
 
@@ -43,15 +55,16 @@ function! s:ResizeFont(d)
 endfunction
 command! -narg=1 ResizeFont :call s:ResizeFont(<args>)
 
-set laststatus=2
-set statusline=%F%m%r%h%w\ %<(%{&ff},%{&fileencoding})%=%y\ (%3c)[%5l/%5L]
-set cursorline
-set scrolloff=5
-set list
-set listchars=tab:\ \ ,eol:\ ,trail:_,extends:>,precedes:<
-set number
-syntax on
-
+lua << EOF
+    local on_attach = function (client, bufnr)
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', {noremap = true, silent = true})
+        require('completion').on_attach(client)
+    end
+    require 'lspconfig'.vimls.setup{on_attach=require'completion'.on_attach}
+    require'lspconfig'.pylsp.setup{on_attach=require'completion'.on_attach}
+EOF
 
 nnoremap	j	gj
 nnoremap	k	gk

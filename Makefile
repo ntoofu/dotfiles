@@ -10,11 +10,10 @@ install: environment
 	zsh -c "source ${HOME}/.zprofile && ( \
 		go get github.com/motemen/ghq; \
 		go get github.com/peco/peco; \
-		mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim; \
-		git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim || :; \
-		mkdir \$${XDG_CONFIG_HOME}/nvim || :; \
-		ln -s ~/.vim \$${XDG_CONFIG_HOME}/nvim || :; \
-		ln -s ~/.vimrc \$${XDG_CONFIG_HOME}/nvim/init.vim || :; \
+		mkdir -p \$${XDG_CONFIG_HOME}/nvim/dein/repos/github.com/Shougo/dein.vim || :; \
+		git clone https://github.com/Shougo/dein.vim.git \$${XDG_CONFIG_HOME}/nvim/dein/repos/github.com/Shougo/dein.vim || :; \
+		ln -s \$${XDG_CONFIG_HOME}/nvim ~/.vim || :; \
+		ln -s \$${XDG_CONFIG_HOME}/nvim/init.vim ~/.vimrc || :; \
 		)"
 
 .PHONY: deploy
@@ -26,6 +25,5 @@ deploy: .zshrc environment
 		sh ./update .xmobarrc \$${HOME}/.xmobarrc; \
 		[ -e \$${HOME}/.xmonad ] || mkdir \$${HOME}/.xmonad; \
 		sh ./update xmonad.hs \$${HOME}/.xmonad/; \
-		sh ./update .vimrc \$${HOME}/.vimrc; \
-		sh ./update .vim \$${HOME}/.vim; \
+		sh ./update nvim \$${XDG_CONFIG_HOME}/nvim; \
 		)"
