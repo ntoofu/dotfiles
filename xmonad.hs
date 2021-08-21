@@ -27,6 +27,8 @@ import XMonad.Layout.Simplest(Simplest(..))
 import XMonad.Layout.Tabbed(shrinkText, TabbedDecoration, addTabs)
 import qualified XMonad.Util.Themes as Themes
 
+import XMonad.Hooks.EwmhDesktops    -- for wmctrl
+
 -- about layout
 import XMonad.Layout
 import XMonad.Layout.ResizableTile
@@ -153,9 +155,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_p     ), shiftTo Prev HiddenNonEmptyWS >> moveTo Next HiddenNonEmptyWS)
 
     , ((modm .|. shiftMask, xK_a     ), do
-   					t <- findWorkspace getSortByIndex Next EmptyWS 1
-   					(windows . W.shift) t
-   					(windows . W.greedyView) t)
+                    t <- findWorkspace getSortByIndex Next EmptyWS 1
+                    (windows . W.shift) t
+                    (windows . W.greedyView) t)
     , ((modm .|. shiftMask, xK_z     ), shiftTo Prev EmptyWS )
 
     -- Toggle screen
@@ -172,10 +174,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Reset the relation between screen and workspace
     , ((modm ,              xK_0     ), do
-    					screenWorkspace 1 >>= flip whenJust (windows.W.view)
-    					(windows . W.greedyView) "2"
-    					screenWorkspace 0 >>= flip whenJust (windows.W.view)
-    					(windows . W.greedyView) "1" )
+                        screenWorkspace 1 >>= flip whenJust (windows.W.view)
+                        (windows . W.greedyView) "2"
+                        screenWorkspace 0 >>= flip whenJust (windows.W.view)
+                        (windows . W.greedyView) "1" )
 
     -- Shrink the master area
     , ((modm .|. shiftMask, xK_comma ), sendMessage Shrink)
@@ -190,7 +192,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Toggle current borders
     , ((modm ,              xK_w     ), withFocused toggleBorder )
-	
+
     -- toggle window to fullscreen
     --, ((modm,               xK_f     ), sendMessage $ JumpToLayout "FULL" )
 
@@ -318,7 +320,7 @@ myManageHook = manageDocks <+> composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = mempty
+myEventHook = ewmhDesktopsEventHook
 
 ------------------------------------------------------------------------
 -- Status bars and logging
@@ -348,8 +350,8 @@ myStartupHook = return ()
 -- Run xmonad with the settings you specify. No need to modify this.
 --
 main = do
-	xmproc <- spawnPipe "xmobar"
-	xmonad $ docks def {
+    xmproc <- spawnPipe "xmobar"
+    xmonad $ docks $ ewmh def {
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -369,9 +371,9 @@ main = do
         manageHook         = myManageHook,
         handleEventHook    = myEventHook,
         logHook = dynamicLogWithPP xmobarPP
-		{ ppOutput = hPutStrLn xmproc
-		, ppTitle = xmobarColor "green" "" . shorten 50
-		},
+        { ppOutput = hPutStrLn xmproc
+        , ppTitle = xmobarColor "green" "" . shorten 50
+        },
         startupHook        = myStartupHook
     }
 
