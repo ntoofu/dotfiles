@@ -3,10 +3,10 @@ if &compatible
 endif
 set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state(expand('~/.config/nvim/dein'))
-    call dein#begin(expand('~/.config/nvim/dein'))
-    call dein#load_toml(expand('~/.config/nvim/dein/plugins.toml'), {'lazy': 0})
-    call dein#load_toml(expand('~/.config/nvim/dein/plugins_lazy.toml'), {'lazy': 1})
+if dein#load_state(expand("$XDG_CONFIG_HOME/nvim/dein"))
+    call dein#begin(expand("$XDG_CONFIG_HOME/nvim/dein"))
+    call dein#load_toml(expand("$XDG_CONFIG_HOME/nvim/dein/plugins.toml"), {'lazy': 0})
+    call dein#load_toml(expand("$XDG_CONFIG_HOME/nvim/dein/plugins_lazy.toml"), {'lazy': 1})
     call dein#end()
     call dein#save_state()
 endif
