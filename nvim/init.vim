@@ -46,6 +46,8 @@ autocmd BufWinEnter ?* silent loadview
 set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
+let g:netrw_liststyle = 3
+
 set guifont=Ricty\ Discord\ 13
 
 function! s:ResizeFont(d)
@@ -87,6 +89,8 @@ nnoremap	<C-k>		:bdelete<CR>
 nnoremap	<silent>(C-n)	:bnext<CR>
 nnoremap	<silent>(C-p)	:bprevious<CR>
 
+nnoremap	<Leader>f		:e .<CR>
+
 nnoremap	<Leader>q		:copen<CR>
 nnoremap	<Leader>Q		:cclose<CR>
 
@@ -115,3 +119,4 @@ augroup binaryEdit
     autocmd	BufWritePost	*	if &binary | silent %!xxd -g 1
     autocmd	BufWritePost	*	set nomod | endif
 augroup END
+
